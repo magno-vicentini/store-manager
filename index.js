@@ -1,10 +1,14 @@
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const express = require('express');
 const rescue = require('express-rescue');
 const productsControllers = require('./controllers/productsControllers');
 const salesControllers = require('./controllers/salesControllers');
+const middlewares = require('./middlewares/validations');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -18,6 +22,11 @@ app.get('/products/:id', rescue(productsControllers.getById));
 app.get('/sales', rescue(salesControllers.getAll));
 
 app.get('/sales/:id', rescue(salesControllers.getById));
+
+app.post('/products', 
+  middlewares.valName, 
+  middlewares.valQuantity, 
+  rescue(productsControllers.createProduct));
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
