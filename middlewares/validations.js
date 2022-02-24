@@ -24,15 +24,32 @@ function valQuantityProducts(req, res, next) {
 }
 
 function valQuantitySales(req, res, next) {
-  const { quantity } = req.body;
+  const result = req.body;
 
-  if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
+  result.some((q) => {
+    if (!q.quantity) return res.status(400).json({ message: '"quantity" is required' });
 
-  if (quantity <= 0) {
-    return res.status(422)
-    .json({ message: '"quantity" must be greater than or equal to 1' });
-  }
+    if (q.quantity <= 0) {
+      return res.status(422)
+      .json({ message: '"quantity" must be greater than or equal to 1' });
+    }
+    return false;
+  });
+  next();
+}
 
+function valProductIdSales(req, res, next) {
+  const result = req.body;
+
+  result.some((q) => {
+    if (!q.productId) return res.status(400).json({ message: '"productId" is required' });
+
+    if (q.productId <= 0) {
+      return res.status(422)
+      .json({ message: '"productId" must be greater than or equal to 1' });
+    }
+    return false;
+  });
   next();
 }
 
@@ -47,6 +64,7 @@ function valProductId(req, res, next) {
 module.exports = {
   valName,
   valQuantityProducts,
-  valQuantitySales,
   valProductId,
+  valQuantitySales,
+  valProductIdSales,
 };

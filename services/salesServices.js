@@ -13,8 +13,18 @@ const createSale = async (result) => {
   };
 };
 
+const updateSale = async (id, arrayRequest) => {
+  await salesModels.updateSale(id, arrayRequest[0]);
+
+  return ({
+    saleId: id,
+    itemUpdated: arrayRequest,
+  });
+};
+
 module.exports = {
   getAll,
   getById,
   createSale,
+  updateSale,
 };
