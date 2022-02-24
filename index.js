@@ -25,8 +25,18 @@ app.get('/sales/:id', rescue(salesControllers.getById));
 
 app.post('/products', 
   middlewares.valName, 
-  middlewares.valQuantity, 
+  middlewares.valQuantityProducts, 
   rescue(productsControllers.createProduct));
+
+app.put('/products/:id', 
+  middlewares.valName, 
+  middlewares.valQuantityProducts, 
+  rescue(productsControllers.updateProduct));
+
+app.delete('/products/:id', 
+  rescue(productsControllers.deleteProduct));
+
+app.post('/sales', rescue(salesControllers.createSale));
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);

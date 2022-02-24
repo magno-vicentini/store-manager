@@ -10,7 +10,20 @@ function valName(req, res, next) {
   next();
 }
 
-function valQuantity(req, res, next) {
+function valQuantityProducts(req, res, next) {
+  const { quantity } = req.body;
+
+  if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
+
+  if (quantity < 0) {
+    return res.status(422)
+    .json({ message: '"quantity" must be greater than or equal to 1' });
+  }
+
+  next();
+}
+
+function valQuantitySales(req, res, next) {
   const { quantity } = req.body;
 
   if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
@@ -33,6 +46,7 @@ function valProductId(req, res, next) {
 
 module.exports = {
   valName,
-  valQuantity,
+  valQuantityProducts,
+  valQuantitySales,
   valProductId,
 };
