@@ -58,7 +58,7 @@ describe('When called controller getById', () =>  {
     })
 
   })
-  describe('If "id" exist return array', () => {
+  describe('If "id" exist return object', () => {
     before(() => {
       request.params = {id: 1}
       response.status = sinon.stub().returns(response)

@@ -13,7 +13,7 @@ const getById = async (req, res) => {
 
   if (!saleById.length) return res.status(404).json({ message: 'Sale not found' });
 
-  res.status(200).json(saleById);
+  res.status(200).json(...saleById);
 };
 
 const createSale = async (req, res) => {
