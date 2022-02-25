@@ -62,7 +62,7 @@ describe('When called controller getById', () =>  {
     before(() => {
       request.params = {id: 1}
       response.status = sinon.stub().returns(response)
-      response.json = sinon.stub().returns({})
+      response.json = sinon.stub().returns([{}])
       sinon.stub(salesServices, 'getById').resolves([{}])
     })
 
@@ -76,10 +76,10 @@ describe('When called controller getById', () =>  {
       expect(response.status.calledWith(200)).to.be.equal(true)
     })
 
-    it('res.json() return object', async () => {
+    it('res.json() return array', async () => {
       await salesControllers.getById(request, response)
 
-      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true)
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true)
     })
   })
 })
@@ -146,9 +146,9 @@ describe('When called controller updateSale', () => {
       request.params = {id: 1}
       request.body = []
       response.status = sinon.stub().returns(response)
-      response.json = sinon.stub().returns({saleId: 1, itemUpdated: []})
+      response.json = sinon.stub().returns({saleId: 1, itemsUpdated: []})
       sinon.stub(salesServices, 'getById').resolves([{}])
-      sinon.stub(salesServices, 'updateSale').resolves({saleId: 1, itemUpdated: []})
+      sinon.stub(salesServices, 'updateSale').resolves({saleId: 1, itemsUpdated: []})
     })
 
     after(() => {
@@ -167,7 +167,7 @@ describe('When called controller updateSale', () => {
 
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true)
       expect(response.json()).to.have.property('saleId')
-      expect(response.json()).to.have.property('itemUpdated')
+      expect(response.json()).to.have.property('itemsUpdated')
     })
   })
 })
