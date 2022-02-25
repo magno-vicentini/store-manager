@@ -20,7 +20,7 @@ const createProduct = async (name, quantity) => {
   const query = 'INSERT INTO products( name, quantity) VALUES (?, ?)';
 
   const [product] = await connection.execute(query, [name, quantity]);
-  
+  console.log(product);
   return product.insertId;
 };
 
@@ -36,8 +36,7 @@ const updateProduct = async (id, name, quantity) => {
 const deleteProduct = async (id) => {
   const query = 'DELETE FROM products WHERE id = ?';
 
-  const [result] = await connection.execute(query, [id]);
-  return result;
+  await connection.execute(query, [id]);
 };
 
 module.exports = {

@@ -44,7 +44,7 @@ const updateSale = async (id, arrayRequest) => {
   WHERE sale_id = ? LIMIT 1`;
 
   const [result] = await connection
-  .execute(query, [arrayRequest.productId, arrayRequest.quantity, id]);
+  .execute(query, [arrayRequest[0].productId, arrayRequest[0].quantity, id]);
   return result;
 };
 
@@ -58,13 +58,11 @@ const deleteSale = async (id) => {
   const [products] = await connection.execute(queryProductById, [id]);
 
   const [result] = await connection.execute(query, [id]);
-  console.log(products);
-
+  
   products.map(async (el) => {
-    const [update] = await connection
+  await connection
     .execute(queryUpdateProduct, [el.quantity, el.product_id]);
-    console.log(update);
-  });
+    });
 
   return result;
 };
