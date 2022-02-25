@@ -23,7 +23,6 @@ const createSale = async (req, res) => {
   const allProducts = await servicesControllers.getAll();
   result.map((q) => {
     allProducts.map((p) => {
-      console.log(p.id);
       if (p.id === q.productId && p.quantity < q.quantity) {
         return res.status(422).json({
           message: 'Such amount is not permitted to sell',
@@ -60,7 +59,7 @@ const deleteSale = async (req, res) => {
   if (!saleById.length) return res.status(404).json({ message: 'Sale not found' });
 
   await salesServices.deleteSale(id);
-
+  
   return res.status(204).end();
 };
 

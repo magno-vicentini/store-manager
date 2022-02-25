@@ -22,7 +22,7 @@ const updateSale = async (id, arrayRequest) => {
   });
 };
 
-const deleteSale = async (id) => salesModels.deleteProduct(id);
+const deleteSale = async (id) => salesModels.deleteSale(id);
 
 module.exports = {
   getAll,

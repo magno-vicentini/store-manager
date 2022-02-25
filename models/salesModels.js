@@ -24,12 +24,15 @@ const createSale = async (result) => {
   const querySale = 'INSERT INTO sales (date) VALUES (NOW())';
   const querySalesProducts = `INSERT INTO sales_products 
   (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
-
+  const queryUpdateProduct = 'UPDATE products SET quantity = (quantity - ?) WHERE id = ?';
+  
   const [resultSales] = await connection.execute(querySale);
   
   result.map(async (sale) => {
      await connection
     .execute(querySalesProducts, [resultSales.insertId, sale.productId, sale.quantity]);
+    await connection
+    .execute(queryUpdateProduct, [sale.quantity, sale.productId]);
   });
 
   return resultSales.insertId;
@@ -42,14 +45,27 @@ const updateSale = async (id, arrayRequest) => {
 
   const [result] = await connection
   .execute(query, [arrayRequest.productId, arrayRequest.quantity, id]);
-  console.log(result);
   return result;
 };
 
-const deleteProduct = async (id) => {
+const deleteSale = async (id) => {
   const query = 'DELETE FROM sales_products WHERE sale_id = ?';
 
+  const queryProductById = 'SELECT * FROM sales_products WHERE sale_id = ?';
+
+  const queryUpdateProduct = 'UPDATE products SET quantity = (quantity + ?) WHERE id = ?';
+
+  const [products] = await connection.execute(queryProductById, [id]);
+
   const [result] = await connection.execute(query, [id]);
+  console.log(products);
+
+  products.map(async (el) => {
+    const [update] = await connection
+    .execute(queryUpdateProduct, [el.quantity, el.product_id]);
+    console.log(update);
+  });
+
   return result;
 };
 
@@ -58,5 +74,5 @@ module.exports = {
   getById,
   createSale,
   updateSale,
-  deleteProduct,
+  deleteSale,
 };
