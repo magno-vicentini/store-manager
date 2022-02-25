@@ -46,6 +46,9 @@ app.put('/sales/:id',
   middlewares.valProductIdSales, 
   rescue(salesControllers.updateSale));
 
+  app.delete('/sales/:id', 
+  rescue(salesControllers.deleteSale));
+
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
 });
