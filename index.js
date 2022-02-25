@@ -29,8 +29,8 @@ app.post('/products',
   rescue(productsControllers.createProduct));
 
 app.put('/products/:id', 
-  middlewares.valName, 
-  middlewares.valQuantityProducts, 
+middlewares.valQuantityProducts, 
+middlewares.valName, 
   rescue(productsControllers.updateProduct));
 
 app.delete('/products/:id', 
@@ -38,6 +38,7 @@ app.delete('/products/:id',
 
 app.post('/sales', 
   middlewares.valQuantitySales,
+  middlewares.valProductIdSales, 
   rescue(salesControllers.createSale));
 
 app.put('/sales/:id', 

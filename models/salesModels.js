@@ -37,8 +37,8 @@ const createSale = async (result) => {
 
 const updateSale = async (id, arrayRequest) => {
   const query = `UPDATE sales_products 
-  SET product_id = ?, quantity = ? 
-  WHERE sale_id = ?`;
+  SET product_id = ?, quantity = ?
+  WHERE sale_id = ? LIMIT 1`;
 
   const [result] = await connection
   .execute(query, [arrayRequest.productId, arrayRequest.quantity, id]);
